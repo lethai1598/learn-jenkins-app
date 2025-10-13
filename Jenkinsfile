@@ -19,7 +19,7 @@ pipeline {
             }
             environment {
                 AWS_S3_BUCKET = 'learn-jenkins-app-thai'
-                AWS_S3_REGION = 'region ap-northeast-2'
+                AWS_S3_REGION = 'ap-northeast-2'
             }
             steps{
                 withCredentials([usernamePassword(credentialsId: 'aws', passwordVariable: 'AWS_SECRET_ACCESS_KEY', usernameVariable: 'AWS_ACCESS_KEY_ID')]) {
