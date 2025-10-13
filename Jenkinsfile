@@ -19,7 +19,7 @@ pipeline {
             }
             environment {
                 AWS_S3_BUCKET = 'learn-jenkins-app-thai'
-                AWS_S3_REGION = 'ap-northeast-2'
+                AWS_REGION = 'ap-northeast-2'
             }
             steps{
                 withCredentials([usernamePassword(credentialsId: 'aws', passwordVariable: 'AWS_SECRET_ACCESS_KEY', usernameVariable: 'AWS_ACCESS_KEY_ID')]) {
@@ -27,7 +27,6 @@ pipeline {
                         aws --version
                         echo "Hello aws" > index.html
                         aws configure list
-                        aws configure set $AWS_S3_REGION
                         aws s3 ls
                         aws s3 cp index.html s3://$AWS_S3_BUCKET/index.html
                     '''
