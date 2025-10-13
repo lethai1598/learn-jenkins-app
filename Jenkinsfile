@@ -29,11 +29,12 @@ pipeline {
                 '''
             }
         }
-        
+
         stage('AWS') {
             agent {
                 docker {
                     image 'amazon/aws-cli:2.31.13'
+                    reuseNode true
                     args "--entrypoint=''"
                 }
             }
