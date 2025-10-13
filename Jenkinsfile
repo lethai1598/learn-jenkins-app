@@ -13,13 +13,11 @@ pipeline {
             agent {
                 docker {
                     image 'amazon/aws-cli'
-
                 }
             }
             steps{
                 sh '''
                     aws --version
-                    
                 '''
             }
         }
