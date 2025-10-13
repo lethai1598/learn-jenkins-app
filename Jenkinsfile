@@ -10,30 +10,7 @@ pipeline {
 
     stages {
         // this is a comment
-        stage('AWS') {
-            agent {
-                docker {
-                    image 'amazon/aws-cli:2.31.13'
-                    args "--entrypoint=''"
-                }
-            }
-            environment {
-                AWS_S3_BUCKET = 'learn-jenkins-app-thai'
-                AWS_REGION = 'ap-northeast-2'
-            }
-            steps{
-                withCredentials([usernamePassword(credentialsId: 'aws', passwordVariable: 'AWS_SECRET_ACCESS_KEY', usernameVariable: 'AWS_ACCESS_KEY_ID')]) {
-                    sh '''
-                        aws --version
-                        echo "Hello aws" > index.html
-                        aws configure list
-                        aws s3 ls
-                        aws s3 cp index.html s3://$AWS_S3_BUCKET/index.html
-                    '''
-                }
-            }
-        }
-        
+
         stage('Build') {
             agent {
                 docker {
@@ -50,6 +27,27 @@ pipeline {
                     npm run build
                     ls -la
                 '''
+            }
+        }
+        
+        stage('AWS') {
+            agent {
+                docker {
+                    image 'amazon/aws-cli:2.31.13'
+                    args "--entrypoint=''"
+                }
+            }
+            environment {
+                AWS_S3_BUCKET = 'learn-jenkins-app-thai'
+                AWS_REGION = 'ap-northeast-2'
+            }
+            steps{
+                withCredentials([usernamePassword(credentialsId: 'aws', passwordVariable: 'AWS_SECRET_ACCESS_KEY', usernameVariable: 'AWS_ACCESS_KEY_ID')]) {
+                    sh '''
+                        aws --version
+                        aws s3 sync . s3://$AWS_S3_BUCKET
+                    '''
+                }
             }
         }
         
