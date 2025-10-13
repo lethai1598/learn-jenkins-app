@@ -21,7 +21,9 @@ pipeline {
                 withCredentials([usernamePassword(credentialsId: 'aws', passwordVariable: 'AWS_SECRET_ACCESS_KEY', usernameVariable: 'AWS_ACCESS_KEY_ID')]) {
                     sh '''
                         aws --version
+                        echo "Hello aws" > index.html
                         aws s3 ls
+                        aws s3 cp index.html s3://learn-jenkins-app-thai/index.html
                     '''
                 }
             }
@@ -135,7 +137,7 @@ pipeline {
             }
 
             environment {
-                CI_ENVIRONMENT_URL = 'https://heroic-brioche-034bae.netlify.app'
+                CI_ENVIRONMENT_URL = 'https://unrivaled-halva-167b9b.netlify.app'
             }
 
             steps {
